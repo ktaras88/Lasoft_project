@@ -12,10 +12,10 @@ def compute_sum(array):
     sum_elements = 0
     for i in array:
         sum_elements += i
-    print(f'Sum of the values of the array: {sum_elements}')
+    return sum_elements
 
 
-compute_sum(original)
+print(compute_sum(original))
 
 # or
 

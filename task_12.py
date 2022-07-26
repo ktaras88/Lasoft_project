@@ -9,7 +9,7 @@ def larger_and_replace(array):
     print(array)
 
     max_element = max(array[0], array[-1])
-    print([max_element]*3)
+    return [max_element]*3
 # or
     # if array[0] > array[-1]:
     #     print([array[0]]*3)
@@ -17,4 +17,4 @@ def larger_and_replace(array):
     #     print([array[-1]]*3)
 
 
-larger_and_replace(given_array)
+print(larger_and_replace(given_array))

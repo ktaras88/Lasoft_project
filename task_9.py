@@ -17,7 +17,7 @@ def string_to_array(string):
     digits = re.findall(template_digit, string)
 
     print(words)
-    print(list(map(int, digits)))
+    return list(map(int, digits))
 
 # or
 
@@ -25,7 +25,7 @@ def string_to_array(string):
     # words = string[:separable_index].split(',')
     # digits = string[separable_index:].split(',')
     # print(words)
-    # print([int(x) for x in digits])
+    # return [int(x) for x in digits]
 
 
-string_to_array(delimited_string)
+print(string_to_array(delimited_string))

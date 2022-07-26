@@ -9,10 +9,12 @@ def check_6(array):
     while i < len(array):
         if array[i] == 6 and i < len(array) - 1:
             if array[i+1] == 6:
-                print('Match')
+                return True
             elif i < len(array) - 2 and array[i+2] == 6:
-                print('Match')
+                return True
+        else:
+            return False
         i += 1
 
 
-check_6(given_array)
+print(check_6(given_array))

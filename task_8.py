@@ -13,12 +13,10 @@ def remove_blank(array):
     for element in array:
         if element:
             without_blank.append(element)
-    print(without_blank)
+    return without_blank
 
 
-remove_blank(original)
+print(remove_blank(original))
 
 # or
-# print([element for element in original if element != ""])
-# or
-# print([element for element in original if element.strip()])
+# return [element for element in original if element]

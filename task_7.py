@@ -12,11 +12,11 @@ given_array_2 = [4]
 def check_first_last(array1, array2):
     if len(array1) >= 1 and len(array2) >= 1:
         if array1[0] == array2[0] or array1[-1] == array2[-1]:
-            print(True)
+            return True
         else:
-            print(False)
+            return False
     else:
         print('Both arrays length must be 1 or more')
 
 
-check_first_last(given_array_1, given_array_2)
+print(check_first_last(given_array_1, given_array_2))

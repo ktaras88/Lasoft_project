@@ -10,9 +10,9 @@ given_array = [1, 2, 3, 4, 1]
 
 def chek(array):
     if len(array) >= 1 and array[0] == array[-1]:
-        print(True)
+        return True
     else:
-        print(False)
+        return False
 
 
-chek(given_array)
+print(chek(given_array))

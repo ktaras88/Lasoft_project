@@ -5,7 +5,7 @@ given_array = [1, 2, 3, 4, 5, 6, 7]
 
 
 def different(array):
-    print(max(array) - min(array))
+    return max(array) - min(array)
 
 
-different(given_array)
+print(different(given_array))

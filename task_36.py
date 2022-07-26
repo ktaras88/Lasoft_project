@@ -8,7 +8,7 @@ def count_the_number(array, number):
     for item in array:
         if item == number:
             count += 1
-    print(count)
+    return count
 
 
-count_the_number(given_array, 1)
+print(count_the_number(given_array, 1))

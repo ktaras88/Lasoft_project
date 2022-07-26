@@ -4,7 +4,7 @@ given_array = [1, 2, 3, 4, 5, 6, 7]
 
 
 def sum_every_third(array):
-    print(sum(array[2::3]))
+    return sum(array[2::3])
 
 
-sum_every_third(given_array)
+print(sum_every_third(given_array))

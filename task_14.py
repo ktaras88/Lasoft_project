@@ -5,9 +5,9 @@ given_array = [5, 5]
 
 def check_twice(array):
     if array == [3, 3]:
-        print(3)
+        return 3
     elif array == [5, 5]:
-        print(5)
+        return 5
 
 
-check_twice(given_array)
+print(check_twice(given_array))

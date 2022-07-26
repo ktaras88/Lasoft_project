@@ -8,7 +8,7 @@ def sum_every_third(array):
     for element in array:
         if element == 3 or element == 5:
             count += 1
-    print(f'The number of matching 3 or 5 is: {count}')
+    return count
 
 
-sum_every_third(given_array)
+print(sum_every_third(given_array))

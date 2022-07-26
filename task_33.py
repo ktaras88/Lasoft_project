@@ -10,7 +10,8 @@ original = ["abcde", "abdf", "adeab", "abdgeee", "bdefa", "abc", "ab", "a", "bac
 
 def sort_by_length(array):
     print('Original array:\n', array)
-    print('Sorted array of strings by length:\n', sorted(array, key=len))
+    print('Sorted array of strings by length:')
+    return sorted(array, key=len)
 
 
-sort_by_length(original)
+print(sort_by_length(original))

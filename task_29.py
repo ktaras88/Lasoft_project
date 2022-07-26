@@ -9,7 +9,7 @@
 # If all items are identical?
 # true
 
-original = [10, 11, 10]
+original = [10, 10, 10]
 
 
 def all_identical(array):
@@ -17,12 +17,13 @@ def all_identical(array):
     for item in array:
         if item != array[-1]:
             check = False
+            break
         else:
             check = True
-    print(check)
+    return check
 # or
 #     check_array = True if len(set(array)) == 1 else False
-#     print(check_array)
+#     return check_array
 
 
-all_identical(original)
+print(all_identical(original))

@@ -15,7 +15,7 @@ def most_occurred(array):
             frequency_of_numbers[item] = 1
         else:
             frequency_of_numbers[item] += 1
-    print(frequency_of_numbers)
+    return frequency_of_numbers
 
 
-most_occurred(original)
+print(most_occurred(original))

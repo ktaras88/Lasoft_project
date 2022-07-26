@@ -17,7 +17,8 @@ def start_with(array, start='ab'):
     template = rf'\b{start}\w*'
     matches = re.findall(template, string)
     print('Original array: \n', array)
-    print(f"Search items start with '{start}':\n", matches)
+    print(f"Search items start with '{start}':")
+    return matches
 
 
-start_with(original, start='b')
+print(start_with(original, start='b'))

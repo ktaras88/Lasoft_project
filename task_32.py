@@ -11,8 +11,9 @@ n = 3
 
 def first_three(array, n):
     print('Original array:\n', array)
-    print('First 3 elements:\n', array[:n])
+    print('First 3 elements:')
+    return array[:n]
 
 
-first_three(original, n)
+print(first_three(original, n))
 

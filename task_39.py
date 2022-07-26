@@ -3,13 +3,11 @@
 
 given_array = [1, 2, 3, -4, 5, 5, 4, -3, 6, 7]
 
+
 def smallest_odd(array):
     print(array)
-    odd = []
-    for item in array:
-        if item % 2 == 1:
-            odd.append(item)
-    print(min(odd))
+    odd = [item for item in array if item % 2 == 1]
+    return min(odd)
 
 
-smallest_odd(given_array)
+print(smallest_odd(given_array))

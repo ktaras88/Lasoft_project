@@ -13,15 +13,15 @@ def remove_duplicate(array):
     for element in array:
         if element not in unique_elements:
             unique_elements.append(element)
-    print(unique_elements)
+    return unique_elements
 
 
-remove_duplicate(original)
+print(remove_duplicate(original))
 
 # or
 # unique_elements = []
 # [unique_elements.append(element) for element in original if element not in unique_elements]
-# print(unique_elements)
+# return unique_elements
 
 # or
-# print(set(original))
+# return set(original)

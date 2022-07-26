@@ -9,10 +9,10 @@ def check_array(array, value):
     i = 0
     while i < len(array)-1:
         if array[i] == value or array[i+1] == value:
-            print(True)
+            return True
         else:
-            print(False)
+            return False
         i += 1
 
 
-check_array(given_array, given_value)
+print(check_array(given_array, given_value))

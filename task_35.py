@@ -9,10 +9,9 @@ def negative_positive(array):
     positive = []
     [negative.append(item) for item in array if item < 0]
     [positive.append(item) for item in array if item >= 0]
-    print(negative+positive)
+    return negative+positive
 # or
-    # new = sorted(array)
-    # print(new)
+    # return sorted(array)
 
 
-negative_positive(given_array)
+print(negative_positive(given_array))

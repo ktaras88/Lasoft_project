@@ -7,11 +7,13 @@ given_array = [1, 2, 3, 4, 5, 5, 4, 3, 6, 7]
 def repeated(array):
     print(array)
     unrepeatable = []
+    repeated_items = []
     for item in array:
         if item not in unrepeatable:
             unrepeatable.append(item)
         else:
-            print(f'Value {item} repeated two or more times')
+            repeated_items.append(item)
+    return repeated_items
 
 
-repeated(given_array)
+print(repeated(given_array))

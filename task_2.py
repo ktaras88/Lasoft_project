@@ -11,11 +11,11 @@ given_array = [1, 2, 7]
 def seven_exist(array):
     if len(array) >= 1:
         if array[0] == 7 or array[-1] == 7:
-            print(True)
+            return True
         else:
-            print(False)
+            return False
     else:
         print('There is less then 1 digit')
 
 
-seven_exist(given_array)
+print(seven_exist(given_array))

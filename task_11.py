@@ -5,7 +5,7 @@ given_array = [1, 2, 3]
 
 
 def reverse_order(array):
-    print(array[::-1])
+    return array[::-1]
 
 
-reverse_order(given_array)
+print(reverse_order(given_array))

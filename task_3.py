@@ -16,7 +16,7 @@ def pick_random_elements(array, amount):
     for i in range(amount):
         random_num = random.randint(0, len(array)-1)
         random_elements.append(array[random_num])
-    print(random_elements)
+    return random_elements
 
 
-pick_random_elements(original, 2)
+print(pick_random_elements(original, 2))

@@ -5,7 +5,7 @@ given_array = [1, 2, 3, 4, 5, 6]
 
 def first_three(array):
     new_array = array[:3]
-    print(new_array)
+    return new_array
 
 
-first_three(given_array)
+print(first_three(given_array))

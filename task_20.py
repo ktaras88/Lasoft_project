@@ -5,7 +5,7 @@ given_array = [1, 2, 3, 17, 5, 6]
 
 
 def sum_array(array):
-    print(sum(array[:array.index(17)]))
+    return sum(array[:array.index(17)])
 
 
-sum_array(given_array)
+print(sum_array(given_array))

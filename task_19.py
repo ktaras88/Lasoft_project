@@ -9,7 +9,7 @@ def average_values(array):
     sum_value = 0
     for element in array:
         sum_value += element
-    print((sum_value - max_value - min_value) / (len(array)-2))
+    return (sum_value - max_value - min_value) / (len(array)-2)
 
 
-average_values(given_array)
+print(average_values(given_array))

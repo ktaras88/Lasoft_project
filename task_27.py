@@ -15,7 +15,7 @@ def convert_into_hash(array):
             a_hash[element[0]] = element[1]
         else:
             a_hash[element[0]] = (a_hash[element[0]], element[1])
-    print(a_hash)
+    return a_hash
 
 
-convert_into_hash(original)
+print(convert_into_hash(original))

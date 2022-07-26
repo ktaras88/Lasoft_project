@@ -8,7 +8,7 @@ def concatenate(array):
     for i in array:
         for x in i:
             concatenate_list.append(x)
-    print(concatenate_list)
+    return concatenate_list
 
 
-concatenate(given_array)
+print(concatenate(given_array))

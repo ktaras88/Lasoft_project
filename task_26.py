@@ -5,11 +5,10 @@ given_array = [3, 2, 1, 3, 5]
 
 
 def check_23(array):
-    for i in range(len(array)):
-        if array[i] == 2:
-            for j in range(i, len(array)):
-                if array[j] == 3:
-                    print(True)
+    exist_2 = array.index(2) if 2 in array else False
+    if exist_2:
+        return True if 3 in array[exist_2:] else False
+    return False
 
 
-check_23(given_array)
+print(check_23(given_array))
