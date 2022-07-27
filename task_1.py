@@ -10,4 +10,4 @@
 original = ["Red", "Green", "Blue", "White"]
 color = 'Green'
 
-print(True if color in original else False)
+print(color in original)

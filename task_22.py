@@ -1,14 +1,12 @@
 # 22. Write a Python program to check whether every element is a 3 or a 5 in a given array of integers.
+# This script should return False in case array has elements different from 3 and 5.
+# But not count elements. Please rewrite it.
 
-given_array = [1, 5, 2, 3, 4, 5, 6, 7, 3]
+given_array = [1, 2, 4, 6, 7, 3]
 
 
 def sum_every_third(array):
-    count = 0
-    for element in array:
-        if element == 3 or element == 5:
-            count += 1
-    return count
+    return 3 in array or 5 in array
 
 
 print(sum_every_third(given_array))

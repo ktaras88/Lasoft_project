@@ -4,11 +4,13 @@
 # ["Red", "Green", "Blue", "White"]
 # Check if 'Green' in color array!
 # true
-# Check if 'Pink' in color array!
+# Check gif 'Pink' in color array!
 # false
+
 original = ["Red", "Green", "Blue", "White"]
-color = input('Enter a color:')
-print(True if color in original else False)
+color = 'Green'
+
+print(color in original)
 
 
 # 2. Write a Python program to check whether 7 appears as either the first or last element in a given array.
@@ -69,10 +71,7 @@ given_array = [1, 2, 3, 4, 1]
 
 
 def chek(array):
-    if len(array) >= 1 and array[0] == array[-1]:
-        return True
-    else:
-        return False
+    return len(array) >= 1 and array[0] == array[-1]
 
 
 print(chek(given_array))
@@ -281,15 +280,15 @@ print(concatenate(given_array))
 
 
 # 14. Write a Python program to check if a given array of integers contains 3 twice, or 5 twice.
+# The script should return True for [2,3,4,5,3] or [4,3,6,7,5,7,8,5,9]. For [6,5,7,7] it should return False.
 
-given_array = [5, 5]
+given_array = [6,5,7,7]
 
 
 def check_twice(array):
-    if array == [3, 3]:
-        return 3
-    elif array == [5, 5]:
-        return 5
+    twice_3 = [item for item in array if item == 3]
+    twice_5 = [item for item in array if item == 5]
+    return len(twice_3) > 1 or len(twice_5) > 1
 
 
 print(check_twice(given_array))
