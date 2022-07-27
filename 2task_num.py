@@ -8,3 +8,5 @@
 # is a ....... multi-line
 # heredoc string --------> example
 
+
+# 24. Write a Python program to print the elements of a given array. Sample array : ["Ruby", 2.3, Time.now]
