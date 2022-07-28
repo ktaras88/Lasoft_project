@@ -151,6 +151,12 @@ print(check_three(37, 88, 3))
 # is a ....... multi-line
 # heredoc string --------> example
 
+print("""
+a string that you "don't" have to escape
+This
+is a  ....... multi-line
+heredoc string --------> example
+""")
 
 # 11. Write a Python program to create a new string where "if" is added to the front of a given string.
 # If the string already begins with "if", return the string unchanged.
@@ -334,6 +340,11 @@ for i in reversed(range(1, 10)):
 
 
 # 24. Write a Python program to print the elements of a given array. Sample array : ["Ruby", 2.3, Time.now]
+
+from datetime import datetime as Time
+
+for item in ["Ruby", 2.3, Time.now]:
+    print(item)
 
 
 # 25. Write a Python program to check two non-negative integer values and return true
@@ -553,3 +564,178 @@ def diff20(num1, num2, num3):
 
 
 print(diff20(17, 27, 37))
+
+
+# 39. Write a Python program to check two given integers and return the larger value.
+# However, if the two values have the same remainder when divided by 5 then return the smaller value
+# and if the two values are the same, return 0.
+# Sample Output:
+# 12
+# 110
+# 0
+
+def remainder5(num1, num2):
+    if num1 == num2:
+        return 0
+    elif num1 % 5 == num2 % 5:
+        return min(num1, num2)
+    return max(num1, num2)
+
+
+print(remainder5(12, 12))
+
+
+# 40. Write a Python program to check two given integers, each in the range 10..99,
+# return true if there is a digit that appears in both numbers.
+
+def appears_in_both(num1, num2):
+    d1_1 = num1 // 10
+    d2_1 = num2 // 10
+    d1 = num1 % 10
+    d2 = num2 % 10
+    return d1 == d2 or d2_1 == d1_1 or d1 == d2_1 or d2 == d1_1
+# or
+    # str_1 = str(num1)
+    # str_2 = str(num2)
+    # check = False
+    # for digit in range(10):
+    #     str_digit = str(digit)
+    #     if str_digit in str_1 and str_digit in str_2:
+    #         check = True
+    #         break
+    # return check
+
+
+print(appears_in_both(21, 41))
+
+
+# 41. Write a Python program to check three given integers x, y, z and return true
+# if one of y or z is close (differing from a by at most 1), while the other is far,
+# differing from both other values by 3 or more.
+
+
+def check_xyz(x, y, z):
+    if abs(y-z) >= 3:
+        return abs(x - y) == 1 and abs(x-z) >= 3 or abs(x-z) == 1 and abs(x-y) >= 3
+    return False
+
+
+print(check_xyz(1, 7, 2))
+
+
+# 42. На зустріч один одному відповідно з міста А та міста Б рухається заєць та черепаха.
+# Ввести з клавіатури відстань між містами, швидкість зайця та швидкість черепахи.
+# Обчислити на якій відстані від міста Б вони зустрінуться.
+
+def meet_dist():
+    dist_AB = int(input('Enter distance between A and B: '))
+    speed_r = int(input('Enter the rabbit speed: '))
+    speed_t = int(input('Enter the turtle speed: '))
+
+    return dist_AB / (1 + speed_r/speed_t)
+
+
+print(f"They will meet at a distance of {meet_dist()} from B city")
+
+
+# 43. З міста А в місто Б їде велосипедист. З його плеча злітає муха. Вона летить до міста Б,
+# долітає до нього та повертається назад. Знову долітає до велосипедиста, розвертається і летить до міста Б...
+# і так до тих пір, поки велосипедист не доїде до пункту Б. Відомо відстань між містами, швидкість велосипедиста
+# та швидкість мухи. Написати програму, що визначає скільки кілометрів налітає муха.
+
+def amount_of_km(dist, speed_b, speed_f):
+    t_b = dist/speed_b
+    return t_b * speed_f
+
+
+print(amount_of_km(10, 2, 3))
+
+
+# 44.Написати програму, яка визначає дату наступного дня, на основі сьогоднішньої дати.
+
+import datetime
+print(datetime.datetime.now().day+1)
+
+
+# 45. Написати программу, яка задає категорію та стаж працівника, а також ставку відповідно докатегорії
+# (1-ша категорія—3000, 2-га – 2000, 3-тя -- 1000). Обчислити заробітну плату, враховуючи надбавку за
+# стаж роботи(до 2 років—0%, від 2 до 5 – 10%, від 5 до 10 – 20%, більше 10—30% ) і зняття податку – 15%.
+
+def rate(cat):
+    if cat == 1:
+        return 3000
+    elif cat == 2:
+        return 2000
+    elif cat == 3:
+        return 1000
+
+
+def extra_tax(exp):
+    TAX = 0.85
+    coef = 1
+    if 2 <= exp < 5:
+        coef = 1.1
+    elif 5 <= exp < 10:
+        coef = 1.2
+    elif exp >= 10:
+        coef = 1.3
+    return coef*TAX
+
+
+category = 1
+experience = 7
+if category in range(1, 4):
+    print(rate(category)*extra_tax(experience))
+else:
+    print('The category could be only 1, 2 or 3')
+
+
+# 46. Написати програму, яка із введеного користувачем цілого чотирьохзначного числа (наприклад 5141):
+# знаходить суму цифр цього числа (5141 це 5+1+4+1 = 11).
+# перевіряє чи є однакові цифри (двічі зустрічається цифра 1)
+# перевіряє чи сума двох перших цифр чотирьохзначного числа рівна двом наступним
+# (5141 → 5+1 = 6 і 4+1 = 5 → суми першої та другої пар цифр даного числа різні)
+
+def some_operations(num):
+    digit1 = num // 1000
+    digit2 = num // 100 % 10
+    digit3 = num // 10 % 10
+    digit4 = num % 10
+
+    summ = digit1 + digit2 + digit3 + digit4
+
+    unrepeat = []
+    if len([unrepeat.append(item) for item in str(num) if item not in unrepeat]) != 4:
+        repeat = True
+    else:
+        repeat = False
+
+    equal = True if digit1+digit2 == digit3+digit4 else False
+
+    return summ, repeat, equal
+
+
+print(some_operations(7227))
+
+
+# 47. Написати програму, яка обчислює, скільки повинен заплатити водій за паркування автомобіля на стоянці
+# протягом певного часу. Користувач вводить наступні дані: час заїзду на стоянку (у годинах і хвилинах),
+# час від’їзду, вартість однієї години паркування. Водій платить за кожну повну годину. Також, здійснюється
+# плата за перевищення користування стоянкою більше ніж на 10 хв., наприклад: якщо хтось використав стоянку
+# протягом 2 год. і 15 хв., то повинен заплатити за 3 год. В кінцевому результаті на екран необхідно вивести
+# повідомлення про час заїзду та виїзду авто, ціну за годину паркування і повну вартість.
+
+def parking():
+    start = input('Start time (hh:mm): ').split(':')
+    stop = input('Stop time (hh:mm): ').split(':')
+    price = int(input('Price for 1 hour: '))
+
+    parking_time = int(stop[0]) - int(start[0])
+    if abs(int(stop[1]) - int(start[1])) > 10:
+        parking_time += 1
+
+    return f"\n Enter time: {':'.join(start)}\n Exit time: {':'.join(stop)}\n Price for one hour: {price}\n " \
+           f"Total price: {parking_time*price}"
+
+
+print(parking())
