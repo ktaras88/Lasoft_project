@@ -55,7 +55,7 @@ class DepartmentEmployee(Department, Employee):
 
 
 @dataclass
-class HistoryVacation(Employee):
+class HistoryVacation(DepartmentEmployee):
     ID: int
     employee_id: int
     start_date: datetime.date
