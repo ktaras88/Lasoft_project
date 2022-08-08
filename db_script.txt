@@ -1,0 +1,88 @@
+CREATE TABLE PERSON(
+	ID int NOT NULL PRIMARY KEY,
+	first_name varchar(20) NOT NULL,
+	second_name varchar(20) NOT NULL,
+	middle_name varchar(20),
+	passport varchar(20),
+	birthday date,
+	place_bday varchar(100),
+	address varchar(50)
+)
+
+CREATE TABLE DEPARTMENT(
+	ID int NOT NULL PRIMARY KEY,
+	name varchar(20) NOT NULL,
+	abreviation varchar(20) NOT NULL,
+	max_amount int DEFAULT 20
+)
+
+CREATE TABLE POSITION(
+	ID int NOT NULL PRIMARY KEY,
+	position varchar(20) NOT NULL,
+	rate int NOT NULL,
+	vacation_days int
+)
+
+CREATE TABLE EMPLOYEE(
+	ID int NOT NULL PRIMARY KEY,
+	employment_date date,
+	fired_date date,
+	head_officer bool DEFAULT False, 
+	person_id int,
+	position_id int,
+	FOREIGN KEY(person_id) REFERENCES PERSON(ID),
+	FOREIGN KEY(position_id) REFERENCES POSITION(ID)
+)
+
+CREATE TABLE HISTORY_VACATION(
+	ID int NOT NULL PRIMARY KEY,
+	employee_id int,
+	start_date date,
+	finish_date date,
+	FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(ID)
+)
+
+CREATE TABLE DEPARTMENT_EMPLOYEE(
+	department_id int,
+	employee_id int,
+	FOREIGN KEY(department_id) REFERENCES DEPARTMENT(ID)
+	FOREIGN KEY(employee_id) REFERENCES EMPLOYEE(ID)
+)
+
+
+1. Список працюючих відділу:
+'''
+SELECT PERSON.first_name, PERSON.second_name, DEPARTMENT.abbreviation 
+FROM PERSON 
+JOIN EMPLOYEE ON PERSON.ID = person_id 
+JOIN DEPARTMENT_EMPLOYEE ON employee.ID = DEPARTMENT_EMPLOYEE.employee_id 
+JOIN DEPARTMENT ON department_id = DEPARTMENT.ID 
+ORDER BY abbreviation
+'''
+2. Список працівників з вказанням періодів використаних відпусток з підсумком днів проведених в відпустках для кожного працівника
+'''
+SELECT PERSON.first_name, PERSON.second_name, HISTORY_VACATION.start_date, HISTORY_VACATION.finish_date, abs(strftime('%d-%m-%Y', finish_date)-strftime('%d-%m-%Y', start_date)) AS `sum of days spent on vacation` 
+FROM PERSON 
+JOIN EMPLOYEE ON PERSON.ID = person_id 
+JOIN HISTORY_VACATION ON EMPLOYEE.ID = HISTORY_VACATION.employee_id 
+ORDER BY PERSON.ID
+'''
+3. Довідка працівника з вказанням посади та окладу
+'''
+SELECT PERSON.first_name, PERSON.second_name, POSITION.position, POSITION.rate 
+FROM PERSON 
+JOIN EMPLOYEE ON PERSON.ID = person_id 
+JOIN POSITION ON employee.position_id = POSITION.ID 
+ORDER BY position
+'''
+4. Список відділів з вказанням керівника та кількості працюючих
+'''
+SELECT t1.*, t2.first_name, t2.second_name FROM (SELECT DEPARTMENT.id, DEPARTMENT.name, count(DEPARTMENT_EMPLOYEE.employee_id) AS emp_count FROM DEPARTMENT
+LEFT JOIN DEPARTMENT_EMPLOYEE ON DEPARTMENT.ID = DEPARTMENT_EMPLOYEE.department_id
+GROUP BY DEPARTMENT.ID) AS t1
+LEFT JOIN (SELECT DEPARTMENT.id, PERSON.first_name, PERSON.second_name FROM DEPARTMENT
+LEFT JOIN DEPARTMENT_EMPLOYEE ON DEPARTMENT.ID = DEPARTMENT_EMPLOYEE.department_id
+LEFT JOIN EMPLOYEE ON EMPLOYEE.ID = DEPARTMENT_EMPLOYEE.employee_id
+LEFT JOIN PERSON ON EMPLOYEE.person_id = PERSON.ID
+WHERE EMPLOYEE.head_officer = 1) AS t2 ON t1.id = t2.id
+'''
