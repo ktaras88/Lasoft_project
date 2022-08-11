@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 
 class Database:
@@ -40,8 +41,11 @@ class Department:
     # def check_amount_employee_department(self, department_id):
     #     pass
 
-    def get_salary(self):
-        pass
+    def get_salary(self, employee_id):
+        experience = self.employment_date - self.fired_date
+        if experience > 0:
+            return self.rate*experience*1.012
+        return self.rate
 
 
 class Person:
@@ -121,7 +125,7 @@ class DepartmentEmployee:
     def save(self):
         self.sql_script = f'''INSERT INTO DEPARTMENT (department_id, employee_id) 
             VALUES ('{self.department_id}', '{self.employee_id}')'''
-        amount_emp_dep = f'''SELECT count(employee_id) FROM department_employee WHERE department_id={self.ID}'''
+        amount_emp_dep = f'''SELECT count(employee_id) FROM department_employee WHERE department_id={self.department_id}'''
         if self.database.execute_sql(amount_emp_dep).fetchone()[0] > 20:
             return print('In this department cannot work more then 20 workers!')
         return self.database.save(self.sql_script)
@@ -149,7 +153,7 @@ class HistoryVacation:
         self.sql_script = f'''SELECT {args} FROM department'''
         return self.database.get(self.sql_script)
 
-    def check_number_employees_vacation(self):
+    def check_number_employees_vacation(self, department_id):
         pass
 
 
