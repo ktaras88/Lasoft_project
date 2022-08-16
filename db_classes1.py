@@ -1,5 +1,4 @@
 import sqlite3
-import datetime
 
 
 class Database:
@@ -106,8 +105,12 @@ class Employee(Person):
             '{self.person_id}', '{self.position_id}')'''
         return self.database.save(self.sql_script), super().save()
 
-    def get(self, *args, **kwargs):
-        self.sql_script = f'''SELECT {args} FROM employee'''
+    def get_employee_list(self):
+        self.sql_script = f'''SELECT * FROM employee'''
+        return self.database.get(self.sql_script)
+
+    def get_employee(self, employee_id):
+        self.sql_script = f'''SELECT * FROM employee WHERE employee.ID={employee_id}'''
         return self.database.get(self.sql_script)
 
 
@@ -123,7 +126,7 @@ class DepartmentEmployee:
             VALUES ('{self.department_id}', '{self.employee_id}')'''
         amount_emp_dep = f'''SELECT count(employee_id) FROM department_employee WHERE department_id={self.department_id}'''
         if self.database.execute_sql(amount_emp_dep).fetchone()[0] > 20:
-            return print('In this department cannot work more then 20 workers!')
+            raise QuantityLimit('In this department cannot work more then 20 workers!')
         return self.database.save(self.sql_script)
 
     def get(self, *args, **kwargs):
@@ -149,8 +152,8 @@ class HistoryVacation:
                                     JOIN DEPARTMENT_EMPLOYEE ON EMPLOYEE.ID=DEPARTMENT_EMPLOYEE.employee_id
                                     WHERE DEPARTMENT_EMPLOYEE.department_id = {self.department_id}
                                     AND HISTORY_VACATION.finish_date > DATE('now')'''
-        if self.database.execute_sql(employees_on_vacation).fetchone()[0] >= 5:
-            return print('Currently on vacation are 5 employees')
+        if self.database.execute_sql(employees_on_vacation).fetchone()[0] > 5:
+            raise QuantityLimit('Currently on vacation are 5 employees')
         return self.database.save(self.sql_script)
 
     def get(self, *args, **kwargs):
@@ -187,10 +190,26 @@ class Company:
 
     def allocation_employee_department(self, employee_id, department_id, database):
         emp_to_dep = DepartmentEmployee(employee_id, department_id, database)
-        emp_to_dep.save()
-        self.department_employee[department_id] = employee_id
+        try:
+            emp_to_dep.save()
+        except QuantityLimit as q:
+            print(q)
+        else:
+            self.department_employee[department_id] = employee_id
 
     def take_vacation(self, id, start_date, finish_date, employee_id, department_id, database):
-        self.employees_vacation.append(employee_id)
         vacation = HistoryVacation(id, start_date, finish_date, employee_id, department_id, database)
-        return vacation.save()
+        try:
+            vacation.save()
+        except QuantityLimit as q:
+            print(q)
+        else:
+            self.employees_vacation.append(employee_id)
+
+
+class QuantityLimit(Exception):
+    def __init__(self, arg):
+        self.arg = arg
+
+    def __str__(self):
+        return f'ERROR: {self.arg}'
