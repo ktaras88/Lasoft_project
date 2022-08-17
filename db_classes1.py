@@ -2,6 +2,13 @@ import sqlite3
 
 
 class Database:
+    __instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls.__instance is None:
+            cls.__instance = super().__new__(cls)
+        return cls.__instance
+
     def __init__(self, db_name):
         self.conn = sqlite3.connect(f'{db_name}.db')
         self.cursor = self.conn.cursor()
@@ -161,55 +168,73 @@ class HistoryVacation:
         return self.database.get(self.sql_script)
 
 
-class Company:
-    def __init__(self):
-        self.list_departments = []
-        self.list_employees = []
-        self.department_employee = {}
-        self.employees_vacation = []
+def check_used_vacation_days(func):
+    def wrapper(id, start_date, finish_date, employee_id, department_id, database):
+        sql_left_days = f'''SELECT position.vacation_days - sum(CAST(JulianDay(HISTORY_VACATION.finish_date)- 
+                            JulianDay(HISTORY_VACATION.start_date) AS INTEGER)) AS diff
+                            FROM position
+                            JOIN employee ON position.ID=employee.position_id
+                            JOIN history_vacation ON employee.ID=history_vacation.employee_id
+                            WHERE history_vacation.employee_id = {employee_id}'''
+        left_days = database.execute_sql(sql_left_days).fetchone()[0]
+        vac_days = finish_date - start_date
+        if left_days >= vac_days:
+            return func(id, start_date, finish_date, employee_id, department_id, database)
+        else:
+            raise QuantityLimit("There isn't enough days for vacation")
+    return wrapper
 
-    def add_department(self, id, name, abbreviation, max_amount, database):
+
+class Company:
+    list_departments = []
+    list_employees = []
+    department_employee = {}
+    employees_vacation = []
+
+    @staticmethod
+    def add_department(id, name, abbreviation, max_amount, database):
         department = Department(id, name, abbreviation, max_amount, database)
         department.save()
-        self.list_departments.append(department)
+        Company.list_departments.append(department)
 
-    def add_employee(self, id, employment_date, fired_date, head_officer, person_id, position_id, id_person, first_name,
+    @staticmethod
+    def add_employee(id, employment_date, fired_date, head_officer, person_id, position_id, id_person, first_name,
                      second_name, middle_name, passport, birthday, place_birthday, address, database, position):
         employee = Employee(id, employment_date, fired_date, head_officer, person_id, position_id, id_person, first_name,
                             second_name, middle_name, passport, birthday, place_birthday, address, database, position)
         employee.save()
-        self.list_employees.append(employee)
+        Company.list_employees.append(employee)
 
-    def get_salary(self, employee):
-        for emp in self.list_employees:
+    @staticmethod
+    def get_salary(employee):
+        for emp in Company.list_employees:
             if emp == employee:
                 experience = employee.employment_date - employee.fired_date
                 if experience >= 1:
                     return employee.position.rate*experience*1.012
                 return employee.position.rate
 
-    def allocation_employee_department(self, employee_id, department_id, database):
+    @staticmethod
+    def allocation_employee_department(employee_id, department_id, database):
         emp_to_dep = DepartmentEmployee(employee_id, department_id, database)
         try:
             emp_to_dep.save()
         except QuantityLimit as q:
             print(q)
         else:
-            self.department_employee[department_id] = employee_id
+            Company.department_employee[department_id] = employee_id
 
-    def take_vacation(self, id, start_date, finish_date, employee_id, department_id, database):
+    @staticmethod
+    @check_used_vacation_days
+    def take_vacation(id, start_date, finish_date, employee_id, department_id, database):
         vacation = HistoryVacation(id, start_date, finish_date, employee_id, department_id, database)
         try:
             vacation.save()
         except QuantityLimit as q:
             print(q)
         else:
-            self.employees_vacation.append(employee_id)
+            Company.employees_vacation.append(employee_id)
 
 
 class QuantityLimit(Exception):
-    def __init__(self, arg):
-        self.arg = arg
-
-    def __str__(self):
-        return f'ERROR: {self.arg}'
+    pass
