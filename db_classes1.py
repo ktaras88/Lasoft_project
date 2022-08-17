@@ -168,6 +168,23 @@ class HistoryVacation:
         return self.database.get(self.sql_script)
 
 
+def check_used_vacation_days(func):
+    def wrapper(id, start_date, finish_date, employee_id, department_id, database):
+        sql_left_days = f'''SELECT position.vacation_days - sum(CAST(JulianDay(HISTORY_VACATION.finish_date)- 
+                            JulianDay(HISTORY_VACATION.start_date) AS INTEGER)) AS diff
+                            FROM position
+                            JOIN employee ON position.ID=employee.position_id
+                            JOIN history_vacation ON employee.ID=history_vacation.employee_id
+                            WHERE history_vacation.employee_id = {employee_id}'''
+        left_days = database.execute_sql(sql_left_days).fetchone()[0]
+        vac_days = finish_date - start_date
+        if left_days >= vac_days:
+            return func(id, start_date, finish_date, employee_id, department_id, database)
+        else:
+            raise QuantityLimit("There isn't enough days for vacation")
+    return wrapper
+
+
 class Company:
     list_departments = []
     list_employees = []
@@ -208,6 +225,7 @@ class Company:
             Company.department_employee[department_id] = employee_id
 
     @staticmethod
+    @check_used_vacation_days
     def take_vacation(id, start_date, finish_date, employee_id, department_id, database):
         vacation = HistoryVacation(id, start_date, finish_date, employee_id, department_id, database)
         try:
